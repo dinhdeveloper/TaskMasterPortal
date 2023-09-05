@@ -236,16 +236,16 @@ export default {
 
         this.$store.dispatch('uploadTaskModule/getJobsExport', params).then(res => {
           console.log('resFile: ', res)
-          if(res && res.success) {
-            ElMessage({
-              showClose: true,
-              message: 'success!',
-              type: 'success',
-            })
-          }else {
-            ElMessage.error('Có lỗi xảy ra.')
-            return
-          }
+          // if(res && res.success) {
+          //   ElMessage({
+          //     showClose: true,
+          //     message: 'success!',
+          //     type: 'success',
+          //   })
+          // }else {
+          //   ElMessage.error('Có lỗi xảy ra.')
+          //   return
+          // }
           this.downloadFile(res.data);
           this.$refs.upload.clearFiles()
         })
@@ -297,23 +297,22 @@ export default {
               this.$store.dispatch('uploadTaskModule/uploadTaskFile', {file: this.fileList[0].raw})
                   .then(res => {
                     console.log('resFile: ', res)
-                    if(res && res.success) {
-                      ElMessage({
-                        showClose: true,
-                        message: 'success!',
-                        type: 'success',
-                      })
-                    }else {
-                      ElMessage.error('Có lỗi xảy ra.')
-                      return
-                    }
+                    // if(res && res.success) {
+                    //   ElMessage({
+                    //     showClose: true,
+                    //     message: 'success!',
+                    //     type: 'success',
+                    //   })
+                    // }else {
+                    //   ElMessage.error('Có lỗi xảy ra.')
+                    //   return
+                    // }
                     this.downloadFile(res.data);
                     this.$refs.upload.clearFiles()
                   })
             })
             .catch(_ => {
             })
-        // Gửi tệp lên server ở đây
       }
     },
     handleExceed(files) {

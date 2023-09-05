@@ -6,6 +6,7 @@ import getters from './getters'
 import uploadFileModule from './modules/uploadFileModule'
 import app from './modules/app'
 import uploadTaskModule from "@/store/modules/uploadTaskModule"
+import tableModule from "@/store/modules/tableModule"
 
 // Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
 		permission,
 		auth,
 		uploadFileModule,
-		uploadTaskModule
+		uploadTaskModule,
+		tableModule
 	},
 	getters
 })

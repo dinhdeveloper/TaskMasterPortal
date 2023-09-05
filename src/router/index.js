@@ -24,6 +24,11 @@ const routes = [
     path: '/upload-task',
     name: 'uploadTask',
     component: () => import('../views/uploadTask/index')
+  },
+  {
+    path: '/table',
+    name: 'table',
+    component: () => import('../views/table/index')
   }
 ]
 
