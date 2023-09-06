@@ -1,8 +1,8 @@
 <template>
   <el-row>
-    <el-col :span="8">
+    <el-col :span="8" style="text-align: right">
       <el-button type="primary" round @click="handleExport" style="margin-left: 10px; margin-top: 4px">
-        Tải báo cáo
+        1. Tải file
       </el-button>
     </el-col>
     <el-col :span="8">
@@ -15,7 +15,7 @@
         />
       </el-select>
     </el-col>
-    <el-col :span="8">
+    <el-col :span="8" style="text-align: left">
       <el-upload
           ref="upload"
           class="upload-demo"
@@ -25,17 +25,17 @@
           :on-change="handleChange"
       >
         <template #trigger>
-          <el-button type="primary">select file</el-button>
+          <el-button type="primary">2. Chọn file</el-button>
         </template>
-        |
-        <el-button class="" type="success" @click="submitUpload">
-          upload to server
-        </el-button>
-        <template #tip>
-          <div class="el-upload__tip text-red">
-            Chỉ gửi 1 file
-          </div>
-        </template>
+<!--        |-->
+<!--        <el-button class="" type="success" @click="submitUpload">-->
+<!--          upload to server-->
+<!--        </el-button>-->
+<!--        <template #tip>-->
+<!--          <div class="el-upload__tip text-red">-->
+<!--            Chỉ gửi 1 file-->
+<!--          </div>-->
+<!--        </template>-->
       </el-upload>
     </el-col>
   </el-row>
@@ -86,6 +86,34 @@ export default {
       console.log('this.fileList: ', this.fileList)
       console.log('this.file: ', file)
       this.fileList = [file];
+      console.log('this.fileList 2: ', this.fileList)
+      if (this.fileList.length > 0) {
+        console.log('file: ', this.fileList[0])
+        if (!this.isExcel(this.fileList[0])) {
+          this.$message.error('Chỉ upload file có đuôi .xlsx')
+          return false
+        }
+        // this.$confirm('Are you sure?')
+        //     .then(_ => {
+              this.$store.dispatch('tableModule/uploadTable', {file: this.fileList[0].raw, tableName: this.table})
+                  .then(res => {
+                    console.log('resFile: ', res)
+                    if(res && res.success) {
+                      ElMessage({
+                        showClose: true,
+                        message: 'success!',
+                        type: 'success',
+                      })
+                    }else {
+                      ElMessage.error('Có lỗi xảy ra.')
+                      return
+                    }
+                    this.$refs.upload.clearFiles()
+                  })
+            // })
+            // .catch(_ => {
+            // })
+      }
     },
     submitUpload() {
       console.log('this.fileList 2: ', this.fileList)
@@ -97,7 +125,7 @@ export default {
         }
         this.$confirm('Are you sure?')
             .then(_ => {
-              this.$store.dispatch('tableModule/uploadTable', {file: this.fileList[0].raw, table: this.table})
+              this.$store.dispatch('tableModule/uploadTable', {file: this.fileList[0].raw, tableName: this.table})
                   .then(res => {
                     console.log('resFile: ', res)
                     if(res && res.success) {

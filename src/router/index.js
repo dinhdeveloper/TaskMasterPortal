@@ -29,6 +29,11 @@ const routes = [
     path: '/table',
     name: 'table',
     component: () => import('../views/table/index')
+  },
+  {
+    path: '/report',
+    name: 'report',
+    component: () => import('../views/report/index')
   }
 ]
 

@@ -192,6 +192,7 @@ export default {
             })
           }else {
             ElMessage.error('Có lỗi xảy ra.')
+            this.loading = false
             return
           }
         })

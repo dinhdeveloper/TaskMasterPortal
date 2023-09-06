@@ -7,6 +7,7 @@ import uploadFileModule from './modules/uploadFileModule'
 import app from './modules/app'
 import uploadTaskModule from "@/store/modules/uploadTaskModule"
 import tableModule from "@/store/modules/tableModule"
+import reportModule from "@/store/modules/reportModule"
 
 // Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
 		auth,
 		uploadFileModule,
 		uploadTaskModule,
-		tableModule
+		tableModule,
+		reportModule
 	},
 	getters
 })

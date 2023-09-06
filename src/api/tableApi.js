@@ -8,7 +8,7 @@ export class tableApi {
     static uploadTable(data) {
         const formData = new FormData()
         formData.append('file', data.file)
-        formData.append('table', data.table)
+        formData.append('tableName', data.tableName)
         return request({
             url: UPLOAD_TABLE,
             method: 'POST',

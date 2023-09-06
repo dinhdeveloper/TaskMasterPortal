@@ -1,6 +1,6 @@
 <template>
-  <el-table :data="list" style="width: 100%">
-    <el-table-column v-for="(name, index) in columnName" :key="index" :prop="index" :label="name" />
+  <el-table :data="transformedData" style="width: 100%">
+    <el-table-column v-for="(name, index) in columnName" :key="index" :prop="name" :label="name" />
   </el-table>
 </template>
 
@@ -15,6 +15,17 @@ export default {
       ],
       columnName: ['a', 'b', 'c', 'd', 'e']
     };
+  },
+  computed: {
+    transformedData() {
+      return this.list.map(row => {
+        const obj = {};
+        this.columnName.forEach((name, index) => {
+          obj[name] = row[index];
+        });
+        return obj;
+      });
+    }
   }
 };
 </script>

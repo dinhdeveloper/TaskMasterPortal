@@ -307,4 +307,7 @@ export const GET_JOBS_EXPORT = SERVER_URL_API + 'portal/job/jobsExport'
 export const PUSH_NOTI_JOB = SERVER_URL_API + 'notification/pushNoti'
 export const GET_TABLE_EXPORT = SERVER_URL_API + 'portal/tables/export'
 export const UPLOAD_TABLE = SERVER_URL_API + 'portal/tables/upload'
+// report
+export const GET_REPORT_LIST = SERVER_URL_API + 'portal/report/list'
+// export const UPLOAD_TABLE = SERVER_URL_API + 'portal/tables/upload'
 
