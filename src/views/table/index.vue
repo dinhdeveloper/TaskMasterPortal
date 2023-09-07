@@ -146,7 +146,6 @@ export default {
       }
     },
     handleExport() {
-      this.loading = true
       const params = {
         tableName: this.table
       }
@@ -163,9 +162,7 @@ export default {
         //   // return
         // }
         this.downloadFile(res.data);
-        this.$refs.upload.clearFiles()
       })
-      this.loading = false
     },
     isExcel(file) {
       return /\.(xlsx)$/.test(file.name)

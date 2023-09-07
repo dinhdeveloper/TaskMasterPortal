@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import router from "@/router";
 import {mapGetters} from 'vuex'
 import * as config from '../../config'
 import {ref} from 'vue';
@@ -75,7 +74,7 @@ export default {
       columnName: ['custom_name', 'weight_time', 'vl1', 'vl2', 'vl3', 'vl4', 'vl5', 'vl6', 'vl7', 'vl8', 'vl9', 'vl10', 'vl11', 'vl12', 'vl13', 'vl14', 'vl15', 'vl16', 'vl17', 'vl18', 'vl19', 'vl20', 'vl21', 'vl22', 'vl23', 'vl24', 'vl25', 'vl26', 'vl27', 'vl28', 'vl29', 'vl30', 'vl31', 'vl32', 'vl33', 'vl34', 'vl35', 'vl36', 'vl37', 'vl38', 'vl39', 'vl40', 'total'],
       search: {
         dateRange: [],
-        cusName: '',
+        cusName: null,
       },
       perPage: DEFAULT_TOTAL_ITEM_PER_PAGE,
       defaultPageSize: DEFAULT_PAGE_SIZES,
@@ -118,6 +117,16 @@ export default {
         // page: this.currentPage,
         // size: 30,
         cusName: this.search.cusName
+      }
+
+      if(this.search.cusName == null) {
+        ElMessage({
+          showClose: true,
+          message: 'Bạn chưa chọn ngày!',
+          type: 'warning',
+        })
+        this.loading = false
+        return
       }
 
       if (this.search.dateRange) {
@@ -166,7 +175,76 @@ export default {
         this.loading = false
       }
     },
+    handleExport() {
+      const params = {
+        // page: this.currentPage,
+        // size: 30,
+        cusName: this.search.cusName
+      }
 
+      if(this.search.cusName == null) {
+        ElMessage({
+          showClose: true,
+          message: 'Bạn chưa chọn ngày!',
+          type: 'warning',
+        })
+        return
+      }
+
+      if (this.search.dateRange) {
+        const date1 = new Date(this.search.dateRange[0]);
+        const date2 = new Date(this.search.dateRange[1]);
+        const timeDifference = date2.getTime() - date1.getTime();
+        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+        const absoluteDaysDifference = Math.abs(daysDifference);
+        console.log('absoluteDaysDifference: ', absoluteDaysDifference)
+        if (absoluteDaysDifference > 89) {
+          this.loading = false
+          ElMessage({
+            showClose: true,
+            message: 'Khoảng cách không vượt quá 90 ngày!',
+            type: 'warning',
+          })
+          return
+        }
+
+        params.fromDate = formatDate(this.search.dateRange[0])
+        params.toDate = formatDate(this.search.dateRange[1])
+        console.log('fromDate: ', params.fromDate)
+        console.log('fromDate: ', params.toDate)
+
+        this.$store.dispatch('reportModule/getReportExport', params).then(res => {
+          console.log('resFile: ', res)
+          // if(res && res.success) {
+          //   ElMessage({
+          //     showClose: true,
+          //     message: 'success!',
+          //     type: 'success',
+          //   })
+          // }else {
+          //   ElMessage.error('Có lỗi xảy ra.')
+          //   // return
+          // }
+          this.downloadFile(res.data);
+        })
+      } else {
+        ElMessage({
+          showClose: true,
+          message: 'Bạn chưa chọn ngày!',
+          type: 'warning',
+        })
+      }
+    },
+    downloadFile(data) {
+      const blob = new Blob([data], {type: 'application/octet-stream'});
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'report-export.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
   }
 };
 </script>

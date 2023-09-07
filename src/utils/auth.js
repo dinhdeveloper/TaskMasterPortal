@@ -1,11 +1,11 @@
 import Cookies from 'js-cookie'
 
 const TokenKey = 'token'
-const UserName = 'USER_NAME'
-const Admin_roles = 'Admin_roles'
-const Token_Video = 'Token_Video'
-const Firebase_Device_Token = 'Firebase_Device_Token'
-const Device_Id = 'Device_Id'
+const UserName = 'username'
+const Admin_roles = 'role'
+const Token_Video = ''
+const Firebase_Device_Token = ''
+const Device_Id = ''
 export function getToken() {
 	return Cookies.get(TokenKey)
 }

@@ -3,12 +3,14 @@ import { ElMessage  } from 'element-plus'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import NProgress from 'nprogress'
+import { API_BASE_URL } from '../../config/index.js';
+import router from "@/router";
 // import { MessageBox, Notification } from 'element-ui'
 
 // create an axios instance
 const service = axios.create({
-	// baseURL: process.env.BASE_API, // api 的 base_url
-	baseURL: 'http://localhost:8080/api/', // api 的 base_url
+	baseURL: API_BASE_URL, // api 的 base_url
+	// baseURL: 'http://localhost:8080/api/', // api 的 base_url
 	timeout: 5000 // request timeout
 })
 
@@ -198,7 +200,9 @@ service.interceptors.response.use(
 		if (error.response.status === 401) {
 			setTimeout(function() {
 				// window.location.href = config.default.PREFIX_DOMAIN + '/'
-				window.location.href = '/login'
+				// window.location.href = '/login'
+				console.log('authen 401')
+				router.push('/login')
 			}, 1000)
 		}
 		console.log(error.response)

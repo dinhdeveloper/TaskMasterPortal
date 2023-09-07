@@ -1,5 +1,17 @@
 import { loginByUsername, logout, getUserInfo, changePassword } from '../../api/login'
-import { getToken, setToken, removeToken, setUserName, setTokenVideo, removeFirebaseToken, removeTokenVideo, removeDeviceId } from '@/utils/auth'
+import {
+	getToken,
+	setToken,
+	removeToken,
+	setUserName,
+	setTokenVideo,
+	removeFirebaseToken,
+	removeTokenVideo,
+	removeDeviceId,
+	setRoles
+} from '@/utils/auth'
+import {responseHelper} from "@/utils/helper";
+import router from "@/router";
 
 const state = {
 	user: '',
@@ -52,46 +64,42 @@ const mutations = {
 
 const actions = {
 
-	async LoginByUsername({ commit }, userInfo) {
-		// eslint-disable-next-line no-async-promise-executor
-		return new Promise(async (resolve, reject) => {
-			await loginByUsername(userInfo.username, userInfo.password).then(response => {
-				console.log('response:', response.data.data)
+	// async LoginByUsername({ commit }, userInfo) {
+	// 	// eslint-disable-next-line no-async-promise-executor
+	// 	return new Promise(async (resolve, reject) => {
+	// 		await loginByUsername(userInfo.username, userInfo.password).then(response => {
+	// 			console.log('response:', response)
+	// 			// commit('SET_ROLES', [response.data.data.role])
+	// 			commit('SET_TOKEN', response.data.data.tokenAuth)
+	// 			setToken(response.data.data.tokenAuth)
+	// 			setUserName(userInfo.username)
+	// 			// setTokenVideo(response.data.data.stringeeToken)
+	// 			resolve()
+	// 		}).catch(error => {
+	// 			reject(error)
+	// 		})
+	// 	})
+	// },
+
+	LoginByUsername({ commit }, payload) {
+		return responseHelper(
+			loginByUsername(payload.username, payload.password),
+			resSuccess => {
+				console.log('response:', resSuccess)
 				// commit('SET_ROLES', [response.data.data.role])
-				commit('SET_TOKEN', response.data.data.tokenAuth)
-				setToken(response.data.data.tokenAuth)
-				setUserName(userInfo.username)
+				commit('SET_TOKEN', resSuccess.data.tokenAuth)
+				setToken(resSuccess.data.tokenAuth)
+				setUserName(payload.username)
+				setRoles(resSuccess.data.role)
 				// setTokenVideo(response.data.data.stringeeToken)
-				resolve()
-			}).catch(error => {
-				reject(error)
-			})
-		})
+				console.log('token: ', getToken())
+				router.push('/')
+				return resSuccess
+			},
+			resError => resError
+		)
 	},
-	GetUserInfo({ commit, state }, payload) {
-		return new Promise((resolve, reject) => {
-			getUserInfo(payload).then(response => {
-				if (!response.data) {
-					reject('error')
-				}
-				const data = response.data
-				console.log(data.data.role)
-				data['roles'] = [data.data.role]
-				if (data.roles && data.roles.length > 0) {
-					commit('SET_ROLES', data.roles)
-				} else {
-					reject('getInfo: roles must be a non-null array !')
-				}
-				commit('SET_NAME', data.data.userProfile.username)
-				commit('SET_USER_LOGIN', data.data.userProfile)
-				commit('SET_AVATAR', '/static/images/user.png')
-				commit('SET_INTRODUCTION', 'Description')
-				resolve(response)
-			}).catch(error => {
-				reject(error)
-			})
-		})
-	},
+
 	LogOut({ commit, state }) {
 		return new Promise((resolve, reject) => {
 			logout(state.token).then(() => {

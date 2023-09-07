@@ -1,5 +1,6 @@
 import {
-    GET_REPORT_LIST
+    GET_REPORT_LIST,
+    GET_REPORT_EXPORT
 } from './config'
 import request from '@/utils/request'
 
@@ -12,14 +13,14 @@ export class reportApi {
         })
     }
 
-    // static getJobsExport(params) {
-    //     return request({
-    //         url: GET_JOBS_EXPORT,
-    //         headers: { 'Content-Type': 'multipart/form-data' },
-    //         responseType: 'arraybuffer',
-    //         method: 'GET',
-    //         params
-    //     })
-    // }
+    static getReportExport(params) {
+        return request({
+            url: GET_REPORT_EXPORT,
+            headers: { 'Content-Type': 'multipart/form-data' },
+            responseType: 'arraybuffer',
+            method: 'GET',
+            params
+        })
+    }
 
 }

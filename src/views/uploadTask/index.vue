@@ -1,6 +1,4 @@
 <template>
-  <!--  <el-button type="primary" @click="handleLogin">login</el-button>-->
-
   <el-row>
     <el-col :span="8">
     </el-col>
@@ -135,10 +133,6 @@ export default {
       perPage: DEFAULT_TOTAL_ITEM_PER_PAGE,
       defaultPageSize: DEFAULT_PAGE_SIZES,
       currentPage: 1,
-      loginForm: {
-        username: 'adminduy',
-        password: '123456'
-      },
       data: [
       ]
     }
@@ -183,7 +177,6 @@ export default {
         console.log('fromDate: ', params.toDate)
 
         this.$store.dispatch('uploadTaskModule/fetchJobs', params).then(res => {
-          console.log('res: ', res)
           if(res && res.success) {
             ElMessage({
               showClose: true,
@@ -248,7 +241,6 @@ export default {
           //   return
           // }
           this.downloadFile(res.data);
-          this.$refs.upload.clearFiles()
         })
         this.loading = false
       } else {

@@ -25,15 +25,15 @@ const actions = {
             resError => resError
         )
     },
-    // getJobsExport({ commit }, payload) {
-    //     return responseHelper(
-    //         uploadTask.getJobsExport(payload),
-    //         resSuccess => {
-    //             return resSuccess
-    //         },
-    //         resError => resError
-    //     )
-    // }
+    getReportExport({ commit }, payload) {
+        return responseHelper(
+            reportApi.getReportExport(payload),
+            resSuccess => {
+                return resSuccess
+            },
+            resError => resError
+        )
+    }
 }
 
 const mutations = {

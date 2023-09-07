@@ -10,6 +10,8 @@ export async function responseHelper(api, successCB, failedCB, finallyCB) {
 		const result = await api
 		console.log('result.data', result)
 		if (result.data && result.data.result_code === 0) {
+			console.log('result_code === 0')
+			console.log('result.data.data', result.data.data)
 			return successCB({
 				success: true,
 				data: result.data.data
