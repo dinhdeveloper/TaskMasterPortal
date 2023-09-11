@@ -122,7 +122,7 @@ export default {
       if(this.search.cusName == null) {
         ElMessage({
           showClose: true,
-          message: 'Bạn chưa chọn ngày!',
+          message: 'Bạn chưa nhập tên!',
           type: 'warning',
         })
         this.loading = false

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Layout from '../views/layout/index'
-import { getToken } from '@/utils/auth'
+import { getToken, getRoles } from '@/utils/auth'
 import store from '@/store'
 
 // const authMiddleware = (to, from, next) => {
@@ -22,13 +22,14 @@ const routes = [
     path: '/',
     component: Layout,
     name: 'Home',
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true,
+      requiredRoleMaster: false
+    },
     children: [
       {
         path: 'index',
         component: HomeView,
         name: 'Dashboard',
-        meta: { requiresAuth: true },
       }
     ]
   },
@@ -36,7 +37,9 @@ const routes = [
     path: '/about',
     component: Layout,
     name: 'About',
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true,
+      requiredRoleMaster: false
+    },
     children: [
       {
         path: '/about',
@@ -49,7 +52,9 @@ const routes = [
     path: '/test',
     component: Layout,
     name: 'Test',
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true,
+      requiredRoleMaster: false
+    },
     children: [
       {
         path: '/test',
@@ -62,7 +67,9 @@ const routes = [
     path: '/upload-task',
     component: Layout,
     name: 'Upload-task',
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true,
+      requiredRoleMaster: true
+    },
     children: [
       {
         path: '/upload-task',
@@ -75,7 +82,9 @@ const routes = [
     path: '/table',
     component: Layout,
     name: 'table',
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true,
+      requiredRoleMaster: true
+    },
     children: [
       {
         path: '/table',
@@ -88,7 +97,9 @@ const routes = [
     path: '/report',
     component: Layout,
     name: 'Report',
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true,
+      requiredRoleMaster: false
+    },
     children: [
       {
         path: '/report',
@@ -107,7 +118,18 @@ const router = createRouter({
 
 // Navigation Guard
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAuth) && to.matched.some(record => record.meta.requiredRoleMaster)) {
+    console.log('kiem tra 1')
+    // Kiểm tra xem người dùng đã đăng nhập hay chưa
+    if (!getToken()) {
+      next('/login'); // Chuyển hướng về trang đăng nhập
+    }else if (getRoles() === 'MASTER') {
+      next()
+    } else {
+      //
+    }
+  }else if (to.matched.some(record => record.meta.requiresAuth) && !to.matched.some(record => record.meta.requiredRoleMaster)) {
+    console.log('kiem tra 2')
     // Kiểm tra xem người dùng đã đăng nhập hay chưa
     if (!getToken()) {
       next('/login'); // Chuyển hướng về trang đăng nhập
@@ -115,7 +137,7 @@ router.beforeEach((to, from, next) => {
       next(); // Cho phép điều hướng tiếp theo
     }
   } else {
-    next(); // Trang không yêu cầu xác thực, cho phép điều hướng tiếp theo
+    next()
   }
 });
 
