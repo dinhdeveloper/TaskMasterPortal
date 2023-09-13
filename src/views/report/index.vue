@@ -74,7 +74,7 @@ export default {
       columnName: ['custom_name', 'weight_time', 'vl1', 'vl2', 'vl3', 'vl4', 'vl5', 'vl6', 'vl7', 'vl8', 'vl9', 'vl10', 'vl11', 'vl12', 'vl13', 'vl14', 'vl15', 'vl16', 'vl17', 'vl18', 'vl19', 'vl20', 'vl21', 'vl22', 'vl23', 'vl24', 'vl25', 'vl26', 'vl27', 'vl28', 'vl29', 'vl30', 'vl31', 'vl32', 'vl33', 'vl34', 'vl35', 'vl36', 'vl37', 'vl38', 'vl39', 'vl40', 'total'],
       search: {
         dateRange: [],
-        cusName: null,
+        cusName: '',
       },
       perPage: DEFAULT_TOTAL_ITEM_PER_PAGE,
       defaultPageSize: DEFAULT_PAGE_SIZES,
