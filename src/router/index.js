@@ -123,7 +123,7 @@ router.beforeEach((to, from, next) => {
     // Kiểm tra xem người dùng đã đăng nhập hay chưa
     if (!getToken()) {
       next('/login'); // Chuyển hướng về trang đăng nhập
-    }else if (getRoles() === 'MASTER') {
+    }else if (getRoles() === 'MASTER' || getRoles() === 'ADMIN') {
       next()
     } else {
       //
