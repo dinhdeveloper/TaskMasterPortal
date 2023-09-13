@@ -18,6 +18,7 @@ export class uploadTask {
 	static uploadTaskFile(data) {
 		const formData = new FormData()
 		formData.append('file', data.file)
+		formData.append('userName', data.userName)
 		return request({
 			url: UPLOAD_TASK_FILE,
 			headers: { 'Content-Type': 'multipart/form-data' },

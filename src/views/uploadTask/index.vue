@@ -106,11 +106,12 @@
 </template>
 
 <script>
-import router from "@/router";
+import { getUserName } from "@/utils/auth"
+import router from "@/router"
 import {mapGetters} from 'vuex'
 import * as config from '../../config'
 import {ref} from 'vue';
-import {genFileId} from 'element-plus';
+import {genFileId} from 'element-plus'
 import {
   formatDate
 } from '@/utils/helper'
@@ -287,7 +288,7 @@ export default {
         }
         this.$confirm('Are you sure?')
             .then(_ => {
-              this.$store.dispatch('uploadTaskModule/uploadTaskFile', {file: this.fileList[0].raw})
+              this.$store.dispatch('uploadTaskModule/uploadTaskFile', {file: this.fileList[0].raw, userName: getUserName()})
                   .then(res => {
                     console.log('resFile: ', res)
                     // if(res && res.success) {
