@@ -3,7 +3,14 @@
     <el-col :span="4">
     </el-col>
     <el-col :span="4">
-      <el-input
+      <el-input v-if="role === 'CUSTOMER'"
+          v-model="search.cusName"
+          class="w-50 m-2"
+          size="large"
+          placeholder="Nhập tên"
+                disabled
+      />
+      <el-input v-else
           v-model="search.cusName"
           class="w-50 m-2"
           size="large"
@@ -56,6 +63,7 @@ import {
   formatDate
 } from '@/utils/helper'
 import {ElMessage} from 'element-plus'
+import { getRoles, getUserName } from '@/utils/auth'
 
 const {
   DEFAULT_TOTAL_ITEM_PER_PAGE,
@@ -80,6 +88,8 @@ export default {
       defaultPageSize: DEFAULT_PAGE_SIZES,
       currentPage: 1,
       loading: false,
+      role: getRoles(),
+      userName: getUserName()
     };
   },
   computed: {
@@ -116,7 +126,9 @@ export default {
       const params = {
         // page: this.currentPage,
         // size: 30,
-        cusName: this.search.cusName
+        cusName: this.search.cusName,
+        role: this.role,
+        userName: this.userName
       }
 
       if(this.search.cusName == null) {
@@ -179,7 +191,9 @@ export default {
       const params = {
         // page: this.currentPage,
         // size: 30,
-        cusName: this.search.cusName
+        cusName: this.search.cusName,
+        role: this.role,
+        userName: this.userName
       }
 
       if(this.search.cusName == null) {
