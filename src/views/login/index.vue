@@ -9,7 +9,7 @@
         <el-form-item label="Password" prop="password">
           <el-input v-model="loginForm.password" type="password" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item style="margin-left: 50%">
           <el-button type="primary" @click="login">Login</el-button>
         </el-form-item>
       </el-form>
@@ -55,11 +55,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .custom-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.el-form-item__label {
+  color: yellow;
 }
 </style>
